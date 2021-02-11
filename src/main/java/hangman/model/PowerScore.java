@@ -22,6 +22,13 @@ public class PowerScore implements GameScore{
     private final int maximumScore = 500;
 
     public int calculateScore(int correctCount, int incorrectCount) throws GameScoreException{
-        return 0;
+        int score = initialPoints;
+        if (correctCount < 0 || incorrectCount < 0){
+            throw new GameScoreException(GameScoreException.NEGATIVE_COUNT);
+        }
+        for (int i = 0; i < correctCount; i++) score += Math.pow(bonificationPoints, i + 1);
+
+        score = score - (penalizationPoints * incorrectCount) < minimumScore ? minimumScore : score - (penalizationPoints * incorrectCount);
+        return score > maximumScore ? maximumScore : score;
     }
 }
