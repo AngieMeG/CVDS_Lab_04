@@ -9,11 +9,12 @@ package hangman.model;
  * 
  * @author Angie Medina
  * @author Jose Perez
- * @version 11/02/21
+ * @version 1.0 11/02/21
  */
 
 public class BonusScore implements GameScore{
 
     public int calculateScore(int correctCount, int incorrectCount) throws GameScoreException{
+        return 0;
     }
 }

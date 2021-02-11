@@ -10,7 +10,7 @@ package hangman.model;
  * 
  * @author Angie Medina
  * @author Jose Perez
- * @version 11/02/21
+ * @version 1.0 11/02/21
  */
 
 public class PowerScore implements GameScore{
@@ -22,5 +22,6 @@ public class PowerScore implements GameScore{
     private final int maximumScore = 500;
 
     public int calculateScore(int correctCount, int incorrectCount) throws GameScoreException{
+        return 0;
     }
 }
