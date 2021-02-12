@@ -31,4 +31,8 @@ public class PowerScore implements GameScore{
         score = score - (penalizationPoints * incorrectCount) < minimumScore ? minimumScore : score - (penalizationPoints * incorrectCount);
         return score > maximumScore ? maximumScore : score;
     }
+
+    public int getInitialPoints(){
+        return initialPoints;
+    }
 }

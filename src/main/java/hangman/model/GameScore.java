@@ -17,4 +17,6 @@ public interface GameScore{
      * @throws GameScoreException, NEGATIVE_VALUE, When one of the attempts count is negative
      */
     public int calculateScore(int correctCount, int incorrectCount) throws GameScoreException;
+
+    public int getInitialPoints();
 }

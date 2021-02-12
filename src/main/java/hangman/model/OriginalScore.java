@@ -26,4 +26,8 @@ public class OriginalScore implements GameScore{
         int score = initialPoints + (bonificationPoints * correctCount) - (penalizationPoints * incorrectCount);
         return score < minimumScore ? minimumScore : score;
     }
+
+    public int getInitialPoints(){
+        return initialPoints;
+    }
 }

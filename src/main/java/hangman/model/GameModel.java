@@ -9,7 +9,7 @@
 *
 * purpose: This is the model component for the game screen
 *
-****************************************************************/ 
+****************************************************************/
 package hangman.model;
 
 import hangman.model.dictionary.HangmanDictionary;
@@ -17,67 +17,71 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-
 public class GameModel {
     private int incorrectCount;
     private int correctCount;
     private LocalDateTime dateTime;
     private int gameScore;
     private int[] lettersUsed;
-    
-    
+
     private HangmanDictionary dictionary;
-    
+    private GameScore score;
+
     private Scanner scan;
     private String randomWord;
     private char[] randomWordCharArray;
-    
-    
-   
-    public GameModel(HangmanDictionary dictionary){
-        //this.dictionary = new EnglishDictionaryDataSource();
-        this.dictionary=dictionary;
+
+    public GameModel(HangmanDictionary dictionary, GameScore score) {
+        this.dictionary = dictionary;
+        this.score = score;
         randomWord = selectRandomWord();
         randomWordCharArray = randomWord.toCharArray();
         incorrectCount = 0;
         correctCount = 0;
-        gameScore = 100;
-        
-    }
-    
-    //method: reset
-    //purpose: reset this game model for a new game
-    public void reset(){
-        randomWord = selectRandomWord();
-        randomWordCharArray = randomWord.toCharArray();
-        incorrectCount = 0;
-        correctCount = 0;
-        gameScore = 100;
+        gameScore = score.getInitialPoints();
+
     }
 
-    //setDateTime
-    //purpose: sets game date/time to system date/time
+    // method: reset
+    // purpose: reset this game model for a new game
+    public void reset() {
+        randomWord = selectRandomWord();
+        randomWordCharArray = randomWord.toCharArray();
+        incorrectCount = 0;
+        correctCount = 0;
+        gameScore = score.getInitialPoints();
+    }
+
+    // setDateTime
+    // purpose: sets game date/time to system date/time
     public void setDateTime() {
         this.dateTime = LocalDateTime.now();
     }
-    
-    //method: makeGuess
-    //purpose: check if user guess is in string. Return a
+
+    // method: makeGuess
+    // purpose: check if user guess is in string. Return a
     // list of positions if character is found in string
-    public ArrayList<Integer> makeGuess(String guess){
+    public ArrayList<Integer> makeGuess(String guess) {
         char guessChar = guess.charAt(0);
         ArrayList<Integer> positions = new ArrayList<>();
-        for(int i = 0; i < randomWordCharArray.length; i++){
-            if(randomWordCharArray[i] == guessChar){
+        for (int i = 0; i < randomWordCharArray.length; i++) {
+            if (randomWordCharArray[i] == guessChar) {
                 positions.add(i);
             }
         }
-        if(positions.size() == 0){
+        if (positions.size() == 0) {
             incorrectCount++;
-            gameScore -= 10;
         } else {
             correctCount += positions.size();
         }
+
+        try {
+            gameScore = score.calculateScore(correctCount, incorrectCount);
+        } catch (GameScoreException e) {
+            e.printStackTrace();
+        }
+        setScore(gameScore);
+
         return positions;
         
     }
